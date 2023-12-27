@@ -83,6 +83,10 @@ Citizen.CreateThread(function()
 
         if isCalling then
             local playerPed = PlayerPedId()
+                local priceToDeduct = 30 -- Replace this with the actual price to deduct
+
+-- Triggering the 'payPulse' event from the client side
+TriggerServerEvent('payPulse', priceToDeduct)
             local pulse = GetDistanceBetweenCoords(GetEntityCoords(playerPed), GetEntityCoords(isNearPB))
             TriggerEvent('countPulse', pulse, playerPed)
         end
