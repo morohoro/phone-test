@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-RegisterServerEvent('payPulse')
-AddEventHandler('payPulse', function(price)
+RegisterServerEvent('cash')
+AddEventHandler('cash', function(price)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = math.ceil(price)
 
