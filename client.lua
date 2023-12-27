@@ -54,8 +54,18 @@ Citizen.CreateThread(function()
         if not isCalling and (isNearPB and pbDistance < 2.0) then
             local pbCoords = QBCore.Functions.GetCoords(isNearPB)
 
-            if IsPedInAnyVehicle(ped) and QBCore.Functions.GetPedInVehicleSeat(QBCore.Functions.GetVehiclePedIsIn(ped), -1) == ped then
-                DrawText3Ds(pbCoords.x, pbCoords.y, pbCoords.z + 1.2, "Exit Vehicle To Use Phone Booth")
+            local ped = PlayerPedId()
+
+if IsPedInAnyVehicle(ped) then
+    local vehicle = GetVehiclePedIsIn(ped)
+    local driver = GetPedInVehicleSeat(vehicle, -1)
+
+    if driver ~= ped then
+        -- The player is not in the driver's seat, so they must be in a vehicle
+        QBCore.Functions.Notify('You must exit the vehicle to use the phone booth')
+        return
+    end
+end
             else
                 DrawText3Ds(pbObj.x, pbObj.y, pbObj.z + 1.2, "Exit Vehicle To Use Phone Booth")
 
