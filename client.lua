@@ -78,17 +78,28 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+    local lastPulse = 0
+    local pulseInterval = 250 -- Adjust this interval as needed
+
     while true do
-        Citizen.Wait(250)
+        Citizen.Wait(pulseInterval)
 
         if isCalling then
             local playerPed = PlayerPedId()
+            local currentTime = GetGameTimer()
+
+            -- Check if the time difference is greater than the interval to avoid rapid triggering
+            if currentTime - lastPulse > pulseInterval then
+                lastPulse = currentTime
+
                 local priceToDeduct = 30 -- Replace this with the actual price to deduct
 
--- Triggering the 'payPulse' event from the client side
-TriggerServerEvent('payPulse', priceToDeduct)
-            local pulse = GetDistanceBetweenCoords(GetEntityCoords(playerPed), GetEntityCoords(isNearPB))
-            TriggerEvent('countPulse', pulse, playerPed)
+                -- Triggering the 'payPulse' event from the client side
+                TriggerServerEvent('payPulse', priceToDeduct)
+
+                local pulse = GetDistanceBetweenCoords(GetEntityCoords(playerPed), GetEntityCoords(isNearPB))
+                TriggerEvent('countPulse', pulse, playerPed)
+            end
         end
     end
 end)
